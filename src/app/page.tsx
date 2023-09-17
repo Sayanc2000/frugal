@@ -1,95 +1,82 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import {Tabs} from "@mantine/core";
+import {getCookie} from "cookies-next";
+import {deleteEntry, getAllEntries} from "@/api/entries";
+import {useEffect, useState} from "react";
+import {Entry, EntryType} from "@/utils/datatypes";
+import Layout from "@/components/Layout";
+import {FaMoneyCheckDollar} from "react-icons/fa6";
+import {TbPigMoney, TbReportMoney} from "react-icons/tb";
+import EntryCard from "@/components/EntryCard";
+import MyNav from "@/components/MyNav";
+import EntryMenu from "@/components/EntryMenu";
+import EntryModal from "@/components/EntryModal";
+import {useDisclosure} from "@mantine/hooks";
+
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const token = getCookie("token")
+    const [opened, { open, close }] = useDisclosure(false)
+    const [entries, setEntries] = useState<Entry[]>([])
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    async function handleDelete(entry_id: string) {
+        const res = await deleteEntry(entry_id)
+        if (res) {
+            setEntries(entries.filter(entry => entry.id !== entry_id))
+        }
+    }
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+    useEffect(() => {
+        // Define your async function
+        async function getEntries() {
+            try {
+                const res = await getAllEntries(token);
+                setEntries(res);
+            } catch (error) {
+                // Handle any errors that may occur during the API call
+                console.error('Error fetching entries:', error);
+            }
+        }
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+        // Call the function
+        getEntries();
+    }, [token]);
+    return (
+        <main>
+            <Layout>
+                    <MyNav/>
+                    <EntryModal opened={opened} close={close}/>
+                    <div>
+                        <Tabs mt={10} p={4} defaultValue="expenses">
+                            <Tabs.List mb={10}>
+                                <Tabs.Tab fz={20} value="expenses" icon={<FaMoneyCheckDollar size={20} />}>Expenses</Tabs.Tab>
+                                <Tabs.Tab fz={20} value="incomes" icon={<TbPigMoney size={20} />}>Incomes</Tabs.Tab>
+                                <Tabs.Tab fz={20} value="all" icon={<TbReportMoney size={20} />}>All</Tabs.Tab>
+                            </Tabs.List>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
+                            <Tabs.Panel value="expenses" pt="xs">
+                                {entries && entries.map((entry: Entry) => (
+                                    (entry.kind == EntryType.EXPENSE) &&
+                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
+                                ))}
+                            </Tabs.Panel>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+                            <Tabs.Panel value="incomes" pt="xs">
+                                {entries && entries.map((entry: Entry) => (
+                                    (entry.kind == EntryType.INCOME) &&
+                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
+                                ))}
+                            </Tabs.Panel>
+
+                            <Tabs.Panel value="all" pt="xs">
+                                {entries && entries.map((entry) => (
+                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
+                                ))}
+                            </Tabs.Panel>
+                        </Tabs>
+                    </div>
+                    <EntryMenu open={open}/>
+            </Layout>
+        </main>
+    )
 }
