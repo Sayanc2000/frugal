@@ -23,7 +23,7 @@ export default function EntryModal({opened, close}: {
         <Modal opened={opened} onClose={close} centered title="New Entry">
                 <form method="post" onSubmit={
                     form.onSubmit(async (values) => {
-                        await makeNewEntry(token, values)
+                        await makeNewEntry(values)
                         close()
                     })
                 }>
