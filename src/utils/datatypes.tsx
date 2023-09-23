@@ -1,3 +1,8 @@
+export type Store = {
+    suggestions: string[]
+    addSuggestion: (data: string) => void
+}
+
 export type UserToken = {
     access_token: string;
     token_type: string;
@@ -19,6 +24,7 @@ export enum ExpenseKind {
 }
 
 export type EntryValues = {
+    title: string;
     amount: number;
     kind: EntryType;
     expenseKind?: ExpenseKind;
@@ -26,6 +32,7 @@ export type EntryValues = {
 
 export type Entry = {
     id: string;
+    title: string;
     kind: EntryType;
     amount: number;
     expenseKind?: ExpenseKind;

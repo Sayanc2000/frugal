@@ -19,6 +19,7 @@ export default function EntryCard({entry, onDelete}: {entry: Entry, onDelete: (e
 
             <Card m={10} mt={15} mb={15} bg="grey.8" withBorder shadow="sm" style={{overflow: 'visible'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Text>{entry.title}</Text>
                     <Text>{formatTimestamp(entry.timestamp)}</Text>
                     <Group>
                         <Text color="green.9">₹ {entry.amount}</Text>
@@ -46,6 +47,7 @@ export default function EntryCard({entry, onDelete}: {entry: Entry, onDelete: (e
         return (
             <Card m={10} mt={15} mb={15} bg="grey.8" withBorder shadow="sm" style={{overflow: 'visible'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Text>{entry.title}</Text>
                     <Text>{formatTimestamp(entry.timestamp)}</Text>
                     <Group>
                         <Text color="red.9">₹ {entry.amount}</Text>

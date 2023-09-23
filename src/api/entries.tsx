@@ -3,6 +3,7 @@ import {API_HOST} from "@/utils/constants";
 import {fetch} from "next/dist/compiled/@edge-runtime/primitives";
 import {EntryType, EntryValues} from "@/utils/datatypes";
 import {cookies} from "next/headers";
+import {useStore} from "@/utils/store";
 
 export async function getAllEntries(token: string | undefined) {
     const res = await fetch(API_HOST + "/entries", {
@@ -23,6 +24,7 @@ export async function getAllEntries(token: string | undefined) {
 export async function makeNewEntry(data: EntryValues) {
     const useCookie = cookies()
     const token = useCookie.get("token")?.value
+
     const payload = {
         amount: data.amount,
         kind: data.kind,
