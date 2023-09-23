@@ -1,5 +1,5 @@
 "use client";
-import {Tabs} from "@mantine/core";
+import {Grid, Tabs} from "@mantine/core";
 import {getCookie} from "cookies-next";
 import {deleteEntry, getAllEntries} from "@/api/entries";
 import {useEffect, useState} from "react";
@@ -55,23 +55,29 @@ export default function Home() {
                             </Tabs.List>
 
                             <Tabs.Panel value="expenses" pt="xs">
-                                {entries && entries.map((entry: Entry) => (
-                                    (entry.kind == EntryType.EXPENSE) &&
-                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
-                                ))}
+                                <Grid>
+                                    {entries && entries.map((entry: Entry) => (
+                                        (entry.kind == EntryType.EXPENSE) &&
+                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                    ))}
+                                </Grid>
                             </Tabs.Panel>
 
                             <Tabs.Panel value="incomes" pt="xs">
-                                {entries && entries.map((entry: Entry) => (
-                                    (entry.kind == EntryType.INCOME) &&
-                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
-                                ))}
+                                <Grid>
+                                    {entries && entries.map((entry: Entry) => (
+                                        (entry.kind == EntryType.INCOME) &&
+                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                    ))}
+                                </Grid>
                             </Tabs.Panel>
 
                             <Tabs.Panel value="all" pt="xs">
-                                {entries && entries.map((entry) => (
-                                    <EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/>
-                                ))}
+                                <Grid>
+                                    {entries && entries.map((entry: Entry) => (
+                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                    ))}
+                                </Grid>
                             </Tabs.Panel>
                         </Tabs>
                     </div>
