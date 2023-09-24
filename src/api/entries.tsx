@@ -17,7 +17,7 @@ export async function getAllEntries(token: string | undefined) {
         return res.json();
     }
     else if(res.status == 401){
-
+        throw new Error("Session has expired, login again")
     }
 }
 

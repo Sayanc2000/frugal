@@ -1,14 +1,16 @@
 "use client";
 import {MantineProvider} from "@mantine/core";
 import {ReactNode} from "react";
+import MyNav from "@/components/MyNav";
 
 export default function Layout({children}: {children: ReactNode}) {
     return (
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'dark'}}>
-            <main>
+        <main>
+            <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'dark'}}>
+                <MyNav/>
                 {children}
-            </main>
-        </MantineProvider>
+            </MantineProvider>
+        </main>
 
     )
 }
