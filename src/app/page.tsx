@@ -58,7 +58,7 @@ export default function Home() {
                                 <Grid>
                                     {entries && entries.map((entry: Entry) => (
                                         (entry.kind == EntryType.EXPENSE) &&
-                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                        <Grid.Col key={entry.id} span={3}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
                                     ))}
                                 </Grid>
                             </Tabs.Panel>
@@ -67,7 +67,7 @@ export default function Home() {
                                 <Grid>
                                     {entries && entries.map((entry: Entry) => (
                                         (entry.kind == EntryType.INCOME) &&
-                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                        <Grid.Col key={entry.id} span={3}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
                                     ))}
                                 </Grid>
                             </Tabs.Panel>
@@ -75,7 +75,7 @@ export default function Home() {
                             <Tabs.Panel value="all" pt="xs">
                                 <Grid>
                                     {entries && entries.map((entry: Entry) => (
-                                        <Grid.Col key={entry.id} span={4}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
+                                        <Grid.Col key={entry.id} span={3}><EntryCard onDelete={(entry_id: string) => handleDelete(entry_id)} key={entry.id} entry={entry}/></Grid.Col>
                                     ))}
                                 </Grid>
                             </Tabs.Panel>

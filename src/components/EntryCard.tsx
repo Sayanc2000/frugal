@@ -7,7 +7,7 @@ function formatTimestamp(timestamp: string) {
     const date = new Date(timestamp);
 
     // You can customize the date and time formatting as needed
-    const formattedDate = date.toLocaleDateString();
+    const formattedDate = date.toLocaleDateString('en-IN');
     const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
 
     return `${formattedDate} ${formattedTime}`;
@@ -70,9 +70,9 @@ export default function EntryCard({entry, onDelete}: {entry: Entry, onDelete: (e
                     </Group>
                 <Space h={10}/>
                 <Group style={{justifyContent: 'space-between'}}>
-                    {entry.expenseKind && <Badge>
+                    {entry.expenseKind ? <Badge>
                         {entry.expenseKind}
-                    </Badge>}
+                    </Badge>: ""}
                     <Text color="red.9">₹ {entry.amount}</Text>
                 </Group>
                 <Space h={20}/>
